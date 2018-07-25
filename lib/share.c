@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2018, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -25,7 +25,6 @@
 #include <curl/curl.h>
 #include "urldata.h"
 #include "share.h"
-#include "psl.h"
 #include "vtls/vtls.h"
 #include "curl_memory.h"
 
@@ -105,12 +104,6 @@ curl_share_setopt(struct Curl_share *share, CURLSHoption option, ...)
     case CURL_LOCK_DATA_CONNECT:     /* not supported (yet) */
       if(Curl_conncache_init(&share->conn_cache, 103))
         res = CURLSHE_NOMEM;
-      break;
-
-    case CURL_LOCK_DATA_PSL:
-#ifndef USE_LIBPSL
-      res = CURLSHE_NOT_BUILT_IN;
-#endif
       break;
 
     default:
@@ -211,8 +204,6 @@ curl_share_cleanup(struct Curl_share *share)
     free(share->sslsession);
   }
 #endif
-
-  Curl_psl_destroy(&share->psl);
 
   if(share->unlockfunc)
     share->unlockfunc(NULL, CURL_LOCK_DATA_SHARE, share->clientdata);

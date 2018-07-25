@@ -84,8 +84,9 @@ CURLcode Curl_write_plain(struct connectdata *conn,
                           ssize_t *written);
 
 /* the function used to output verbose information */
-int Curl_debug(struct Curl_easy *data, curl_infotype type,
-               char *ptr, size_t size);
+int Curl_debug(struct Curl_easy *handle, curl_infotype type,
+               char *data, size_t size,
+               struct connectdata *conn);
 
 
 #endif /* HEADER_CURL_SENDF_H */

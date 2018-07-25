@@ -25,8 +25,8 @@
 #include "curl_setup.h"
 
 #if defined(HAVE_LIBSSH2_H)
-#include <libssh2.h>
-#include <libssh2_sftp.h>
+#include <libssh2/libssh2.h>
+#include <libssh2/libssh2_sftp.h>
 #elif defined(HAVE_LIBSSH_LIBSSH_H)
 #include <libssh/libssh.h>
 #include <libssh/sftp.h>

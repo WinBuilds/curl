@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2018, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -31,22 +31,10 @@
 #include "tool_doswin.h"
 #include "tool_msgs.h"
 #include "tool_cb_hdr.h"
-#include "tool_cb_wrt.h"
 
 #include "memdebug.h" /* keep this as LAST include */
 
 static char *parse_filename(const char *ptr, size_t len);
-
-#ifdef WIN32
-#define BOLD
-#define BOLDOFF
-#else
-#define BOLD "\x1b[1m"
-/* Switch off bold by settting "all attributes off" since the explicit
-   bold-off code (21) isn't supported everywhere - like in the mac
-   Terminal. */
-#define BOLDOFF "\x1b[0m"
-#endif
 
 /*
 ** callback for CURLOPT_HEADERFUNCTION
@@ -60,7 +48,7 @@ size_t tool_header_cb(char *ptr, size_t size, size_t nmemb, void *userdata)
   const char *str = ptr;
   const size_t cb = size * nmemb;
   const char *end = (char *)ptr + cb;
-  long protocol = 0;
+  char *url = NULL;
 
   /*
    * Once that libcurl has called back tool_header_cb() the returned value
@@ -100,14 +88,11 @@ size_t tool_header_cb(char *ptr, size_t size, size_t nmemb, void *userdata)
    * Content-Disposition header specifying a filename property.
    */
 
-  curl_easy_getinfo(outs->config->easy, CURLINFO_PROTOCOL, &protocol);
   if(hdrcbdata->honor_cd_filename &&
      (cb > 20) && checkprefix("Content-disposition:", str) &&
-     (protocol & (CURLPROTO_HTTPS|CURLPROTO_HTTP))) {
+     !curl_easy_getinfo(outs->config->easy, CURLINFO_EFFECTIVE_URL, &url) &&
+     url && (checkprefix("http://", url) || checkprefix("https://", url))) {
     const char *p = str + 20;
-
-    if(!outs->stream && !tool_create_output_file(outs, FALSE))
-      return failure;
 
     /* look for the 'filename=' parameter
        (encoded filenames (*=) are not supported) */
@@ -134,49 +119,19 @@ size_t tool_header_cb(char *ptr, size_t size, size_t nmemb, void *userdata)
       len = (ssize_t)cb - (p - str);
       filename = parse_filename(p, len);
       if(filename) {
-        if(outs->stream) {
-          /* already opened and possibly written to */
-          if(outs->fopened)
-            fclose(outs->stream);
-          outs->stream = NULL;
-
-          /* rename the initial file name to the new file name */
-          rename(outs->filename, filename);
-          if(outs->alloc_filename)
-            free(outs->filename);
-        }
+        outs->filename = filename;
+        outs->alloc_filename = TRUE;
         outs->is_cd_filename = TRUE;
         outs->s_isreg = TRUE;
         outs->fopened = FALSE;
-        outs->filename = filename;
-        outs->alloc_filename = TRUE;
-        hdrcbdata->honor_cd_filename = FALSE; /* done now! */
-        if(!tool_create_output_file(outs, TRUE))
-          return failure;
+        outs->stream = NULL;
+        hdrcbdata->honor_cd_filename = FALSE;
+        break;
       }
-      break;
-    }
-  }
-
-  if(hdrcbdata->config->show_headers &&
-     (protocol & (CURLPROTO_HTTP|CURLPROTO_HTTPS|CURLPROTO_RTSP))) {
-    /* bold headers only happen for HTTP(S) and RTSP */
-    char *value = NULL;
-
-    if(!outs->stream && !tool_create_output_file(outs, FALSE))
       return failure;
-
-    if(hdrcbdata->global->isatty && hdrcbdata->global->styled_output)
-      value = memchr(ptr, ':', cb);
-    if(value) {
-      size_t namelen = value - ptr;
-      fprintf(outs->stream, BOLD "%.*s" BOLDOFF ":", namelen, ptr);
-      fwrite(&value[1], cb - namelen - 1, 1, outs->stream);
     }
-    else
-      /* not "handled", just show it */
-      fwrite(ptr, cb, 1, outs->stream);
   }
+
   return cb;
 }
 
@@ -278,3 +233,4 @@ static char *parse_filename(const char *ptr, size_t len)
 
   return copy;
 }
+

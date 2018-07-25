@@ -80,7 +80,7 @@ endif()
 target_link_libraries(${LIB_NAME} ${CURL_LIBS})
 
 if(WIN32)
-  add_definitions(-D_USRDLL)
+  add_definitions( -D_USRDLL )
 endif()
 
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_DEFINITIONS BUILDING_LIBCURL)
@@ -98,11 +98,18 @@ if(WIN32)
   if(NOT CURL_STATICLIB)
     # Add "_imp" as a suffix before the extension to avoid conflicting with the statically linked "libcurl.lib"
     set_target_properties(${LIB_NAME} PROPERTIES IMPORT_SUFFIX "_imp.lib")
+
+    set_target_properties (${LIB_NAME} PROPERTIES
+       DEBUG_POSTFIX "-d"
+       # Note: no postfix for release variants, let user choose what style of release he wants
+       # MINSIZEREL_POSTFIX "-z"
+       # RELWITHDEBINFO_POSTFIX "-g"
+       )
   endif()
 endif()
 
 target_include_directories(${LIB_NAME} INTERFACE
-  $<INSTALL_INTERFACE:include>)
+	$<INSTALL_INTERFACE:include>)
 
 install(TARGETS ${LIB_NAME}
   EXPORT libcurl-target

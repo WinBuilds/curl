@@ -57,9 +57,10 @@ int Curl_blockread_all(struct connectdata *conn, /* connection data */
   ssize_t nread;
   ssize_t allread = 0;
   int result;
+  timediff_t timeleft;
   *n = 0;
   for(;;) {
-    timediff_t timeleft = Curl_timeleft(conn->data, NULL, TRUE);
+    timeleft = Curl_timeleft(conn->data, NULL, TRUE);
     if(timeleft < 0) {
       /* we already got the timeout */
       result = CURLE_OPERATION_TIMEDOUT;
@@ -115,6 +116,7 @@ CURLcode Curl_SOCKS4(const char *proxy_user,
 #define SOCKS4REQLEN 262
   unsigned char socksreq[SOCKS4REQLEN]; /* room for SOCKS4 request incl. user
                                            id */
+  int result;
   CURLcode code;
   curl_socket_t sock = conn->sock[sockindex];
   struct Curl_easy *data = conn->data;
@@ -218,7 +220,6 @@ CURLcode Curl_SOCKS4(const char *proxy_user,
    * Make connection
    */
   {
-    int result;
     ssize_t actualread;
     ssize_t written;
     ssize_t hostnamelen = 0;
@@ -616,11 +617,11 @@ CURLcode Curl_SOCKS5(const char *proxy_user,
     if(dns)
       hp = dns->addr;
     if(hp) {
+      int i;
       char buf[64];
       Curl_printable_address(hp, buf, sizeof(buf));
 
       if(hp->ai_family == AF_INET) {
-        int i;
         struct sockaddr_in *saddr_in;
         socksreq[len++] = 1; /* ATYP: IPv4 = 1 */
 
@@ -633,7 +634,6 @@ CURLcode Curl_SOCKS5(const char *proxy_user,
       }
 #ifdef ENABLE_IPV6
       else if(hp->ai_family == AF_INET6) {
-        int i;
         struct sockaddr_in6 *saddr_in6;
         socksreq[len++] = 4; /* ATYP: IPv6 = 4 */
 

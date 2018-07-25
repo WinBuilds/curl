@@ -444,6 +444,7 @@ static CURLcode readwrite_data(struct Curl_easy *data,
   CURLcode result = CURLE_OK;
   ssize_t nread; /* number of bytes read */
   size_t excess = 0; /* excess bytes read */
+  bool is_empty_data = FALSE;
   bool readmore = FALSE; /* used by RTP to signal for more data */
   int maxloops = 100;
 
@@ -453,7 +454,6 @@ static CURLcode readwrite_data(struct Curl_easy *data,
   /* This is where we loop until we have read everything there is to
      read or we get a CURLE_AGAIN */
   do {
-    bool is_empty_data = FALSE;
     size_t buffersize = data->set.buffer_size;
     size_t bytestoread = buffersize;
 
@@ -660,14 +660,14 @@ static CURLcode readwrite_data(struct Curl_easy *data,
       if(data->set.verbose) {
         if(k->badheader) {
           Curl_debug(data, CURLINFO_DATA_IN, data->state.headerbuff,
-                     (size_t)k->hbuflen);
+                     (size_t)k->hbuflen, conn);
           if(k->badheader == HEADER_PARTHEADER)
             Curl_debug(data, CURLINFO_DATA_IN,
-                       k->str, (size_t)nread);
+                       k->str, (size_t)nread, conn);
         }
         else
           Curl_debug(data, CURLINFO_DATA_IN,
-                     k->str, (size_t)nread);
+                     k->str, (size_t)nread, conn);
       }
 
 #ifndef CURL_DISABLE_HTTP
@@ -1027,7 +1027,7 @@ static CURLcode readwrite_upload(struct Curl_easy *data,
     if(data->set.verbose)
       /* show the data before we change the pointer upload_fromhere */
       Curl_debug(data, CURLINFO_DATA_OUT, k->upload_fromhere,
-                 (size_t)bytes_written);
+                 (size_t)bytes_written, conn);
 
     k->writebytecount += bytes_written;
 

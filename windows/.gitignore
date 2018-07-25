@@ -1,0 +1,8 @@
+*.idb
+*.inc
+*.lnk
+*.opendb
+*.opensdf
+*.sdf
+*.VC.db
+.vs/

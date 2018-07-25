@@ -188,6 +188,7 @@ static CURLcode CONNECT(struct connectdata *conn,
   struct SingleRequest *k = &data->req;
   CURLcode result;
   curl_socket_t tunnelsocket = conn->sock[sockindex];
+  timediff_t check;
   struct http_connect_state *s = conn->connect_state;
 
 #define SELECT_OK      0
@@ -200,13 +201,12 @@ static CURLcode CONNECT(struct connectdata *conn,
   conn->bits.proxy_connect_closed = FALSE;
 
   do {
-    timediff_t check;
     if(TUNNEL_INIT == s->tunnel_state) {
       /* BEGIN CONNECT PHASE */
       char *host_port;
       Curl_send_buffer *req_buffer;
 
-      infof(data, "Establish HTTP proxy tunnel to %s:%d\n",
+      infof(data, "Establish HTTP proxy tunnel to %s:%hu\n",
             hostname, remote_port);
 
         /* This only happens if we've looped here due to authentication
@@ -419,7 +419,7 @@ static CURLcode CONNECT(struct connectdata *conn,
         /* output debug if that is requested */
         if(data->set.verbose)
           Curl_debug(data, CURLINFO_HEADER_IN,
-                     s->line_start, (size_t)s->perline);
+                     s->line_start, (size_t)s->perline, conn);
 
         if(!data->set.suppress_connect_headers) {
           /* send the header to the callback */

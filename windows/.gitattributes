@@ -1,0 +1,6 @@
+*.dsw eol=crlf
+*.dsp eol=crlf
+*.sln eol=crlf
+*.vcproj eol=crlf
+*.vcxproj eol=crlf
+*.filters eol=crlf

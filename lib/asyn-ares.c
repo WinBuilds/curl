@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2018, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -312,25 +312,22 @@ CURLcode Curl_resolver_is_resolved(struct connectdata *conn,
     conn->async.os_specific;
   CURLcode result = CURLE_OK;
 
-  if(dns)
-    *dns = NULL;
+  *dns = NULL;
 
   waitperform(conn, 0);
 
   if(res && !res->num_pending) {
-    if(dns) {
-      (void)Curl_addrinfo_callback(conn, res->last_status, res->temp_ai);
-      /* temp_ai ownership is moved to the connection, so we need not free-up
-         them */
-      res->temp_ai = NULL;
-    }
+    (void)Curl_addrinfo_callback(conn, res->last_status, res->temp_ai);
+    /* temp_ai ownership is moved to the connection, so we need not free-up
+       them */
+    res->temp_ai = NULL;
     if(!conn->async.dns) {
       failf(data, "Could not resolve: %s (%s)",
             conn->async.hostname, ares_strerror(conn->async.status));
       result = conn->bits.proxy?CURLE_COULDNT_RESOLVE_PROXY:
         CURLE_COULDNT_RESOLVE_HOST;
     }
-    else if(dns)
+    else
       *dns = conn->async.dns;
 
     destroy_async_data(&conn->async);
@@ -393,7 +390,7 @@ CURLcode Curl_resolver_wait_resolv(struct connectdata *conn,
       timeout_ms = 1000;
 
     waitperform(conn, timeout_ms);
-    result = Curl_resolver_is_resolved(conn, entry?&temp_entry:NULL);
+    result = Curl_resolver_is_resolved(conn, &temp_entry);
 
     if(result || conn->async.done)
       break;
@@ -475,19 +472,17 @@ static void query_completed_cb(void *arg,  /* (struct connectdata *) */
     return;
 
   res = (struct ResolverResults *)conn->async.os_specific;
-  if(res) {
-    res->num_pending--;
+  res->num_pending--;
 
-    if(CURL_ASYNC_SUCCESS == status) {
-      Curl_addrinfo *ai = Curl_he2ai(hostent, conn->async.port);
-      if(ai) {
-        compound_results(res, ai);
-      }
+  if(CURL_ASYNC_SUCCESS == status) {
+    Curl_addrinfo *ai = Curl_he2ai(hostent, conn->async.port);
+    if(ai) {
+      compound_results(res, ai);
     }
-    /* A successful result overwrites any previous error */
-    if(res->last_status != ARES_SUCCESS)
-      res->last_status = status;
   }
+  /* A successful result overwrites any previous error */
+  if(res->last_status != ARES_SUCCESS)
+    res->last_status = status;
 }
 
 /*

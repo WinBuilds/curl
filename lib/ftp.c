@@ -239,8 +239,8 @@ static void close_secondarysocket(struct connectdata *conn)
 
 static void freedirs(struct ftp_conn *ftpc)
 {
+  int i;
   if(ftpc->dirs) {
-    int i;
     for(i = 0; i < ftpc->dirdepth; i++) {
       free(ftpc->dirs[i]);
       ftpc->dirs[i] = NULL;
@@ -637,6 +637,8 @@ CURLcode Curl_GetFTPResponse(ssize_t *nreadp, /* return number of bytes read */
    * line in a response or continue reading.  */
 
   curl_socket_t sockfd = conn->sock[FIRSTSOCKET];
+  time_t timeout;              /* timeout in milliseconds */
+  time_t interval_ms;
   struct Curl_easy *data = conn->data;
   CURLcode result = CURLE_OK;
   struct ftp_conn *ftpc = &conn->proto.ftpc;
@@ -655,8 +657,7 @@ CURLcode Curl_GetFTPResponse(ssize_t *nreadp, /* return number of bytes read */
 
   while(!*ftpcode && !result) {
     /* check and reset timeout value every lap */
-    time_t timeout = Curl_pp_state_timeout(pp); /* timeout in milliseconds */
-    time_t interval_ms;
+    timeout = Curl_pp_state_timeout(pp);
 
     if(timeout <= 0) {
       failf(data, "FTP response timeout");
@@ -1588,6 +1589,7 @@ static CURLcode ftp_state_ul_setup(struct connectdata *conn,
   struct FTP *ftp = conn->data->req.protop;
   struct Curl_easy *data = conn->data;
   struct ftp_conn *ftpc = &conn->proto.ftpc;
+  int seekerr = CURL_SEEKFUNC_OK;
 
   if((data->state.resume_from && !sizechecked) ||
      ((data->state.resume_from > 0) && sizechecked)) {
@@ -1603,7 +1605,6 @@ static CURLcode ftp_state_ul_setup(struct connectdata *conn,
     /* 3. pass file-size number of bytes in the source file */
     /* 4. lower the infilesize counter */
     /* => transfer as usual */
-    int seekerr = CURL_SEEKFUNC_OK;
 
     if(data->state.resume_from < 0) {
       /* Got no given size to start from, figure it out */
@@ -2781,6 +2782,7 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
         char *ptr = &data->state.buffer[4];  /* start on the first letter */
         const size_t buf_size = data->set.buffer_size;
         char *dir;
+        char *store;
         bool entry_extracted = FALSE;
 
         dir = malloc(nread + 1);
@@ -2803,7 +2805,6 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
 
         if('\"' == *ptr) {
           /* it started good */
-          char *store;
           ptr++;
           for(store = dir; *ptr;) {
             if('\"' == *ptr) {
@@ -3991,7 +3992,8 @@ CURLcode Curl_ftpsend(struct connectdata *conn, const char *cmd)
       break;
 
     if(conn->data->set.verbose)
-      Curl_debug(conn->data, CURLINFO_HEADER_OUT, sptr, (size_t)bytes_written);
+      Curl_debug(conn->data, CURLINFO_HEADER_OUT,
+                 sptr, (size_t)bytes_written, conn);
 
     if(bytes_written != (ssize_t)write_len) {
       write_len -= bytes_written;
@@ -4382,6 +4384,7 @@ static CURLcode ftp_setup_connection(struct connectdata *conn)
 {
   struct Curl_easy *data = conn->data;
   char *type;
+  char command;
   struct FTP *ftp;
 
   conn->data->req.protop = ftp = malloc(sizeof(struct FTP));
@@ -4399,7 +4402,6 @@ static CURLcode ftp_setup_connection(struct connectdata *conn)
     type = strstr(conn->host.rawalloc, ";type=");
 
   if(type) {
-    char command;
     *type = 0;                     /* it was in the middle of the hostname */
     command = Curl_raw_toupper(type[6]);
     conn->bits.type_set = TRUE;

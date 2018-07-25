@@ -41,6 +41,7 @@ struct Curl_tree *Curl_splay(struct curltime i,
                              struct Curl_tree *t)
 {
   struct Curl_tree N, *l, *r, *y;
+  long comp;
 
   if(t == NULL)
     return t;
@@ -48,7 +49,7 @@ struct Curl_tree *Curl_splay(struct curltime i,
   l = r = &N;
 
   for(;;) {
-    long comp = compare(i, t->key);
+    comp = compare(i, t->key);
     if(comp < 0) {
       if(t->smaller == NULL)
         break;
