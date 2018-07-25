@@ -555,6 +555,7 @@ static int ProcessRequest(struct httprequest *req)
       if(sscanf(req->reqbuf, "CONNECT %" MAXDOCNAMELEN_TXT "s HTTP/%d.%d",
                 doc, &prot_major, &prot_minor) == 3) {
         char *portp = NULL;
+        unsigned long part = 0;
 
         snprintf(logbuf, sizeof(logbuf),
                  "Received a CONNECT %s HTTP/%d.%d request",
@@ -568,7 +569,6 @@ static int ProcessRequest(struct httprequest *req)
 
         if(doc[0] == '[') {
           char *p = &doc[1];
-          unsigned long part = 0;
           /* scan through the hexgroups and store the value of the last group
              in the 'part' variable and use as test case number!! */
           while(*p && (ISXDIGIT(*p) || (*p == ':') || (*p == '.'))) {
@@ -954,6 +954,7 @@ static void init_httprequest(struct httprequest *req)
    is no data waiting, or < 0 if it should be closed */
 static int get_request(curl_socket_t sock, struct httprequest *req)
 {
+  int error;
   int fail = 0;
   char *reqbuf = req->reqbuf;
   ssize_t got = 0;
@@ -999,7 +1000,7 @@ static int get_request(curl_socket_t sock, struct httprequest *req)
       fail = 1;
     }
     else if(got < 0) {
-      int error = SOCKERRNO;
+      error = SOCKERRNO;
       if(EAGAIN == error || EWOULDBLOCK == error) {
         /* nothing to read at the moment */
         return 0;
@@ -1064,7 +1065,7 @@ static int send_doc(curl_socket_t sock, struct httprequest *req)
   char *cmd = NULL;
   size_t cmdsize = 0;
   FILE *dump;
-  bool persistent = TRUE;
+  bool persistant = TRUE;
   bool sendfailure = FALSE;
   size_t responsesize;
   int error = 0;
@@ -1195,7 +1196,7 @@ static int send_doc(curl_socket_t sock, struct httprequest *req)
      connection will be closed after the data has been sent to the requesting
      client... */
   if(strstr(buffer, "swsclose") || !count) {
-    persistent = FALSE;
+    persistant = FALSE;
     logmsg("connection close instruction \"swsclose\" found in response");
   }
   if(strstr(buffer, "swsbounce")) {
@@ -1312,7 +1313,7 @@ static int send_doc(curl_socket_t sock, struct httprequest *req)
     } while(ptr && *ptr);
   }
   free(cmd);
-  req->open = use_gopher?FALSE:persistent;
+  req->open = use_gopher?FALSE:persistant;
 
   prevtestno = req->testno;
   prevpartno = req->partno;
@@ -1967,7 +1968,7 @@ static int service_connection(curl_socket_t msgsock, struct httprequest *req,
   /* if we got a CONNECT, loop and get another request as well! */
 
   if(req->open) {
-    logmsg("=> persistent connection request ended, awaits new request\n");
+    logmsg("=> persistant connection request ended, awaits new request\n");
     return 1;
   }
 

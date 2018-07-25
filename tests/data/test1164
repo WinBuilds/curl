@@ -45,7 +45,7 @@ Host: %HOSTIP:%HTTPPORT
 Accept: */*
 
 </protocol>
-<stdout mode="text">
+<stdout>
 208
 </stdout>
 </verify>

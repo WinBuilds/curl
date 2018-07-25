@@ -955,6 +955,8 @@ static int do_tftp(struct testcase *test, struct tftphdr *tp, ssize_t size)
   int first = 1, ecode;
   struct formats *pf;
   char *filename, *mode = NULL;
+  int error;
+  FILE *server;
 #ifdef USE_WINSOCK
   DWORD recvtimeout, recvtimeoutbak;
 #endif
@@ -962,9 +964,9 @@ static int do_tftp(struct testcase *test, struct tftphdr *tp, ssize_t size)
   int toggle = 1;
 
   /* Open request dump file. */
-  FILE *server = fopen(REQUEST_DUMP, "ab");
+  server = fopen(REQUEST_DUMP, "ab");
   if(!server) {
-    int error = errno;
+    error = errno;
     logmsg("fopen() failed with error: %d %s", error, strerror(error));
     logmsg("Error opening file: %s", REQUEST_DUMP);
     return -1;
@@ -1136,6 +1138,9 @@ static int validate_access(struct testcase *test,
                            const char *filename, int mode)
 {
   char *ptr;
+  long testno, partno;
+  int error;
+  char partbuf[80]="data";
 
   logmsg("trying to get file: %s mode %x", filename, mode);
 
@@ -1156,9 +1161,6 @@ static int validate_access(struct testcase *test,
   ptr = strrchr(filename, '/');
 
   if(ptr) {
-    char partbuf[80]="data";
-    long partno;
-    long testno;
     char *file;
 
     ptr++; /* skip the slash */
@@ -1192,7 +1194,7 @@ static int validate_access(struct testcase *test,
     if(file) {
       FILE *stream = fopen(file, "rb");
       if(!stream) {
-        int error = errno;
+        error = errno;
         logmsg("fopen() failed with error: %d %s", error, strerror(error));
         logmsg("Error opening file: %s", file);
         logmsg("Couldn't open test file: %s", file);
@@ -1200,7 +1202,7 @@ static int validate_access(struct testcase *test,
       }
       else {
         size_t count;
-        int error = getpart(&test->buffer, &count, "reply", partbuf, stream);
+        error = getpart(&test->buffer, &count, "reply", partbuf, stream);
         fclose(stream);
         if(error) {
           logmsg("getpart() failed with error: %d", error);

@@ -35,7 +35,7 @@ http
 HTTP GET when PROXY Protocol enabled
 </name>
 <command>
-http://%HOSTIP:%HTTPPORT/1455 --haproxy-protocol
+http://%HOSTIP:%HTTPPORT/1455 --haproxy-protocol --local-port 37756
 </command>
 </client>
 
@@ -45,11 +45,8 @@ http://%HOSTIP:%HTTPPORT/1455 --haproxy-protocol
 <strip>
 ^User-Agent:.*
 </strip>
-<strippart>
-s/^PROXY TCP4 %CLIENTIP %HOSTIP (\d*) %HTTPPORT/proxy-line/
-</strippart>
 <protocol>
-proxy-line
+PROXY TCP4 %CLIENTIP %HOSTIP 37756 %HTTPPORT
 GET /1455 HTTP/1.1
 Host: %HOSTIP:%HTTPPORT
 Accept: */*

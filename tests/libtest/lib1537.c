@@ -43,7 +43,8 @@ int test(char *URL)
   asize = (int)sizeof(a);
   ptr = curl_easy_escape(NULL, (char *)a, asize);
   printf("%s\n", ptr);
-  curl_free(ptr);
+  if(ptr)
+    curl_free(ptr);
 
   /* deprecated API */
   ptr = curl_escape((char *)a, asize);
@@ -57,7 +58,8 @@ int test(char *URL)
   printf("outlen == %d\n", outlen);
   printf("unescape == original? %s\n",
          memcmp(raw, a, outlen) ? "no" : "YES");
-  curl_free(raw);
+  if(raw)
+    curl_free(raw);
 
   /* deprecated API */
   raw = curl_unescape(ptr, (int)strlen(ptr));
@@ -69,8 +71,10 @@ int test(char *URL)
   printf("[old] outlen == %d\n", outlen);
   printf("[old] unescape == original? %s\n",
          memcmp(raw, a, outlen) ? "no" : "YES");
-  curl_free(raw);
-  curl_free(ptr);
+  if(raw)
+    curl_free(raw);
+  if(ptr)
+    curl_free(ptr);
 
   /* weird input length */
   ptr = curl_easy_escape(NULL, (char *)a, -1);
@@ -82,7 +86,8 @@ int test(char *URL)
   printf("unescape -1 length: %s %d\n", ptr, outlen);
 
 test_cleanup:
-  curl_free(ptr);
+  if(ptr)
+    curl_free(ptr);
   curl_global_cleanup();
 
   return (int)res;
