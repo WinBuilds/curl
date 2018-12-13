@@ -118,14 +118,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)../../../../build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/bin/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
@@ -158,7 +158,7 @@
     <Link>
       <AdditionalDependencies>openssldll.lib;openssl_cryptodll.lib;libssh2.lib;wldap32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../../../build_msvc14_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ManifestFile>$(IntDir)$(TargetFileName).intermediate.manifest</ManifestFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
@@ -197,7 +197,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
     <Link>
       <AdditionalDependencies>openssldll.lib;openssl_cryptodll.lib;libssh2.lib;wldap32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../../../build_msvc14_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutDir)..\lib\$(TargetName).lib</ImportLibrary>
@@ -235,7 +235,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
     <Link>
       <AdditionalDependencies>openssldll.lib;openssl_cryptodll.lib;libssh2.lib;wldap32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../../../build_msvc14_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ManifestFile>$(IntDir)$(TargetFileName).intermediate.manifest</ManifestFile>
       <ImportLibrary>$(OutDir)..\lib\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
@@ -272,7 +272,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
     <Link>
       <AdditionalDependencies>openssldll.lib;openssl_cryptodll.lib;libssh2.lib;wldap32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../../../build_msvc14_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(OutDir)..\lib\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -284,7 +284,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\$(Configuration)\include\;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;BUILDING_LIBCURL;DEBUGBUILD;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -319,7 +319,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\$(Configuration)\include\;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;BUILDING_LIBCURL;DEBUGBUILD;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -352,7 +352,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\$(Configuration)\include\;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDLL;BUILDING_LIBCURL;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -387,7 +387,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(SolutionDir)..\..\..\..\build_ms
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\$(Configuration)\include\;$(SolutionDir)..\..\..\..\build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDLL;BUILDING_LIBCURL;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>

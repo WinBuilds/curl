@@ -137,8 +137,8 @@ typedef ssize_t (Curl_recv)(struct connectdata *conn, /* connection data */
 #endif
 
 #ifdef HAVE_LIBSSH2_H
-#include <libssh2/libssh2.h>
-#include <libssh2/libssh2_sftp.h>
+#include <ssh2lib/libssh2.h>
+#include <ssh2lib/libssh2_sftp.h>
 #endif /* HAVE_LIBSSH2_H */
 
 /* The upload buffer size, should not be smaller than CURL_MAX_WRITE_SIZE, as

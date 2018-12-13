@@ -54,7 +54,7 @@
 #endif
 
 #ifdef USE_LIBSSH2
-#include <libssh2/libssh2.h>
+#include <ssh2lib/libssh2.h>
 #endif
 
 #ifdef HAVE_LIBSSH2_VERSION

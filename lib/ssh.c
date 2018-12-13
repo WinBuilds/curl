@@ -28,8 +28,8 @@
 
 #include <limits.h>
 
-#include <libssh2/libssh2.h>
-#include <libssh2/libssh2_sftp.h>
+#include <ssh2lib/libssh2.h>
+#include <ssh2lib/libssh2_sftp.h>
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
