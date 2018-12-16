@@ -1,8 +1,9 @@
 *.idb
-*.inc
 *.lnk
 *.opendb
 *.opensdf
 *.sdf
+*.bak
+*.user
 *.VC.db
 .vs/
