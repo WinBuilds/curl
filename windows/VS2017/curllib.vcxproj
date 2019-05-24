@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6719D1C-8819-4407-ABAF-4448CC87C158}</ProjectGuid>
     <RootNamespace>libcurl</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
     <ProjectName>curllib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -67,21 +67,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/lib/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/lib/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/lib/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/lib/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WINBUILDS_ROOT)build_msvc14_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/lib/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/lib/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/lib/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/lib/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WINBUILDS_ROOT)build_msvc15_$(Platform)/$(Configuration)/obj/$(ProjectName)/</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;BUILDING_LIBCURL;DEBUGBUILD;CURL_STATICLIB;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -99,11 +99,11 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>openssllib.lib;ssh2lib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc15_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl"
-xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
+      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl"
+xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,7 +112,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Pl
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Debug\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;BUILDING_LIBCURL;DEBUGBUILD;CURL_STATICLIB;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -130,18 +130,18 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Pl
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>openssllib.lib;ssh2lib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc15_$(Platform)/Debug/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl"
-xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
+      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl"
+xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -158,11 +158,11 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Pl
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>openssllib.lib;ssh2lib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc15_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl"
-xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
+      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl"
+xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -172,7 +172,7 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Pl
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\lib;$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\;$(WINBUILDS_ROOT)build_msvc14_$(Platform)\Release\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;USE_OPENSSL;USE_LIBSSH2;HAVE_LIBSSH2_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -189,11 +189,11 @@ xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Pl
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>openssllib.lib;ssh2lib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc14_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(WINBUILDS_ROOT)build_msvc15_$(Platform)/Release/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl"
-xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc14_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
+      <Command>mkdir "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl"
+xcopy "$(SolutionDir)..\..\include\curl\*.h" "$(WINBUILDS_ROOT)build_msvc15_$(Platform)\$(Configuration)\include\curl\" /E /I /R /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
